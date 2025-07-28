@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SMART PARKING SYSTEM</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #333;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.15);
+            overflow: hidden;
+        }
+        .header {
+            background: linear-gradient(135deg, #4CAF50, #45a049);
+            color: white;
+            padding: 30px;
+            text-align: center;
+            position: relative;
+        }
+        .header::before {
+            content: "🅿️";
+            position: absolute;
+            left: 30px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 80px;
+        }
+        .header h1 {
+            font-size: 32px;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        .header p {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+        .parking-complex {
+            padding: 30px 20px;
+            background: #f8f9fa;
+        }
+        .floor {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 25px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            border: 2px solid #e9ecef;
+        }
+        .floor-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 8px;
+            border-bottom: 3px solid #3498db;
+        }
+        .floor-title {
+            font-size: 24px;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+        .floor-stats {
+            background: #ecf0f1;
+            padding: 8px 15px;
+            border-radius: 25px;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+        .slots-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 35px;
+            justify-items: center;
+            margin-top: 20px;
+        }
+        .parking-slot {
+            width: 160px;
+            height: 220px;
+            border-radius: 16px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            color: white;
+            font-weight: bold;
+            font-size: 18px;
+            position: relative;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.16);
+            border: 3px solid transparent;
+            transition: all 0.3s;
+            background: #bdc3c7;
+        }
+        .parking-slot.available {
+            background: linear-gradient(135deg, #2ecc71, #27ae60);
+            border-color: #1e8449;
+        }
+        .parking-slot.occupied {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            border-color: #922b21;
+        }
+        .parking-slot.reserved {
+            background: linear-gradient(135deg, #f39c12, #d68910);
+            border-color: #b7950b;
+        }
+        .slot-number {
+            font-size: 22px;
+            margin-top: 16px;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        .slot-status {
+            font-size: 15px;
+            margin-top: 4px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            opacity: 0.92;
+            background: rgba(255,255,255,0.12);
+            padding: 4px 10px;
+            border-radius: 8px;
+        }
+        .car-image {
+            width: 65px;
+            height: 65px;
+            margin: 12px 0 2px 0;
+            display: block;
+            background: #fff;
+            border-radius: 12px;
+            border: 2px solid #2c3e50;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.13);
+        }
+        .sensor-indicator {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            width: 22px;
+            height: 22px;
+            background: #3498db;
+            border: 3px solid white;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.2); opacity: 0.7; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        .summary {
+            padding: 24px 40px;
+            background: #34495e;
+            color: white;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 20px;
+        }
+        .summary-card {
+            background: rgba(255,255,255,0.14);
+            padding: 18px;
+            border-radius: 12px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.18);
+        }
+        .summary-number {
+            font-size: 32px;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #3498db;
+        }
+        .summary-label {
+            font-size: 14px;
+            opacity: 0.8;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .legend {
+            padding: 20px 40px;
+            background: #ecf0f1;
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
+        }
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: bold;
+        }
+        .legend-color {
+            width: 28px;
+            height: 28px;
+            border-radius: 7px;
+            border: 2px solid #333;
+        }
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #2ecc71;
+            color: white;
+            padding: 15px 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            transform: translateX(400px);
+            transition: transform 0.3s ease;
+            z-index: 1000;
+        }
+        .notification.show {
+            transform: translateX(0);
+        }
+        .entrance {
+            margin: 20px 40px;
+            padding: 20px;
+            background: linear-gradient(135deg, #8e44ad, #9b59b6);
+            color: white;
+            border-radius: 15px;
+            text-align: center;
+            position: relative;
+        }
+        .gate {
+            width: 100px;
+            height: 8px;
+            background: #fff;
+            margin: 15px auto;
+            border-radius: 4px;
+            position: relative;
+        }
+        .gate::before {
+            content: "🚗";
+            position: absolute;
+            left: -40px;
+            top: -20px;
+            font-size: 24px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Smart Parking System</h1>
+            <p>Real-time monitoring dengan 6 slot parkir total</p>
+        </div>
+        <div class="entrance">
+            <h3>🚪 PINTU MASUK</h3>
+            <div class="gate"></div>
+            <p>Sensor ultrasonik + booking otomatis</p>
+        </div>
+        <div class="parking-complex">
+            <!-- LANTAI 2 -->
+            <div class="floor">
+                <div class="floor-header">
+                    <div class="floor-title">🏢 LANTAI 2</div>
+                    <div class="floor-stats" id="floor2-stats">
+                        Tersedia: <span id="floor2-available">3</span>/3
+                    </div>
+                </div>
+                <div class="slots-container">
+                    <div class="parking-slot available" id="slot-l2s1">
+                        <div class="sensor-indicator"></div>
+                        <div class="slot-number">L2-S1</div>
+                        <img class="car-image" id="img-l2s1" src="" alt="Status Parkir">
+                        <div class="slot-status" id="status-l2s1">Tersedia</div>
+                    </div>
+                    <div class="parking-slot available" id="slot-l2s2">
+                        <div class="sensor-indicator"></div>
+                        <div class="slot-number">L2-S2</div>
+                        <img class="car-image" id="img-l2s2" src="" alt="Status Parkir">
+                        <div class="slot-status" id="status-l2s2">Tersedia</div>
+                    </div>
+                    <div class="parking-slot available" id="slot-l2s3">
+                        <div class="sensor-indicator"></div>
+                        <div class="slot-number">L2-S3</div>
+                        <img class="car-image" id="img-l2s3" src="" alt="Status Parkir">
+                        <div class="slot-status" id="status-l2s3">Tersedia</div>
+                    </div>
+                </div>
+            </div>
+            <!-- LANTAI 1 -->
+            <div class="floor">
+                <div class="floor-header">
+                    <div class="floor-title">🏢 LANTAI 1</div>
+                    <div class="floor-stats" id="floor1-stats">
+                        Tersedia: <span id="floor1-available">3</span>/3
+                    </div>
+                </div>
+                <div class="slots-container">
+                    <div class="parking-slot available" id="slot-l1s1">
+                        <div class="sensor-indicator"></div>
+                        <div class="slot-number">L1-S1</div>
+                        <img class="car-image" id="img-l1s1" src="" alt="Status Parkir">
+                        <div class="slot-status" id="status-l1s1">Tersedia</div>
+                    </div>
+                    <div class="parking-slot available" id="slot-l1s2">
+                        <div class="sensor-indicator"></div>
+                        <div class="slot-number">L1-S2</div>
+                        <img class="car-image" id="img-l1s2" src="" alt="Status Parkir">
+                        <div class="slot-status" id="status-l1s2">Tersedia</div>
+                    </div>
+                    <div class="parking-slot available" id="slot-l1s3">
+                        <div class="sensor-indicator"></div>
+                        <div class="slot-number">L1-S3</div>
+                        <img class="car-image" id="img-l1s3" src="" alt="Status Parkir">
+                        <div class="slot-status" id="status-l1s3">Tersedia</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="summary">
+            <div class="summary-card">
+                <div class="summary-number" id="total-available">6</div>
+                <div class="summary-label">Slot Tersedia</div>
+            </div>
+            <div class="summary-card">
+                <div class="summary-number" id="total-occupied">0</div>
+                <div class="summary-label">Slot Terisi</div>
+            </div>
+        </div>
+        <div class="legend">
+            <div class="legend-item">
+                <div class="legend-color" style="background: linear-gradient(135deg, #2ecc71, #27ae60);"></div>
+                <span>Slot Kosong (Tersedia)</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background: linear-gradient(135deg, #e74c3c, #c0392b);"></div>
+                <span>Slot Terisi</span>
+            </div>
+        </div>
+    </div>
+    <div class="notification" id="notification">
+        <span id="notification-text"></span>
+    </div>
+    <script>
+        const token = "y7bz1Jq7aW_Lt-T5nNvey5OhtDs1QYOT"; // Ganti dengan token Blynk kamu
+
+        // Mapping slot ke pin Blynk (V0-V5)
+        const slotMap = {
+            'l1s1': 'V0', 'l1s2': 'V1', 'l1s3': 'V2',
+            'l2s1': 'V3', 'l2s2': 'V4', 'l2s3': 'V5'
+        };
+        // Gambar icon mobil
+        const imgKosong = "https://raw.githubusercontent.com/twitter/twemoji/master/assets/svg/1f697.svg";
+        const imgTerisi = "https://raw.githubusercontent.com/twitter/twemoji/master/assets/svg/1f698.svg";
+
+        async function ambilPin(pin) {
+            return fetch(`https://blynk.cloud/external/api/get?token=${token}&${pin}`).then(r => r.text());
+        }
+
+        async function updateParkir() {
+            let available = 0, occupied = 0;
+            let floor1Available = 0, floor2Available = 0;
+            // Update tiap slot
+            for (let slotId in slotMap) {
+                let pin = slotMap[slotId];
+                let val = await ambilPin(pin); // "1" = terisi, "0" = kosong
+                let status = (val === "1") ? "occupied" : "available";
+                if (status === "available") {
+                    available++;
+                    if (slotId.startsWith('l1')) floor1Available++;
+                    if (slotId.startsWith('l2')) floor2Available++;
+                } else {
+                    occupied++;
+                }
+                // Update tampilan slot
+                const slotDiv = document.getElementById(`slot-${slotId}`);
+                slotDiv.classList.remove('available', 'occupied');
+                slotDiv.classList.add(status);
+                // Gambar
+                const img = document.getElementById(`img-${slotId}`);
+                img.src = (status === "available") ? imgKosong : imgTerisi;
+                img.alt = (status === "available") ? "Kosong" : "Terisi";
+                // Status text
+                document.getElementById(`status-${slotId}`).textContent = (status === "available") ? "Tersedia" : "Terisi";
+            }
+            // Statistik
+            document.getElementById('total-available').textContent = available;
+            document.getElementById('total-occupied').textContent = occupied;
+            document.getElementById('floor1-available').textContent = floor1Available;
+            document.getElementById('floor2-available').textContent = floor2Available;
+        }
+
+        function showNotification(message, type = 'success') {
+            const notification = document.getElementById('notification');
+            const notificationText = document.getElementById('notification-text');
+            notificationText.textContent = message;
+            notification.style.background = (type === 'error') ? '#e74c3c' : '#2ecc71';
+            notification.classList.add('show');
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            updateParkir();
+            showNotification('🚀 Smart Parking System siap digunakan!');
+            setInterval(updateParkir, 2500); // update otomatis tiap 2.5 detik
+        });
+
+        setInterval(() => {
+            document.querySelectorAll('.sensor-indicator').forEach(sensor => {
+                sensor.style.backgroundColor = sensor.style.backgroundColor === 'rgb(231, 76, 60)' ? '#3498db' : '#e74c3c';
+            });
+        }, 2000);
+    </script>
+</body>
+</html>
