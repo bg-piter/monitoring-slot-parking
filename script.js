@@ -1,7 +1,7 @@
 // Smart Parking System JavaScript
 // Konfigurasi Sistem
 const CONFIG = {
-    blynkToken: "y7bz1Jq7aW_Lt-T5nNvey5OhtDs1QYOT", // Ganti dengan token Blynk Anda
+    blynkToken: "nod0SZ0c9ViUv_x7L-jlTdQXVOMDhohu", // Ganti dengan token Blynk Anda
     updateInterval: 2500, // Update setiap 2.5 detik
     sensorBlinkInterval: 2000, // Sensor indicator blink setiap 2 detik
     notificationDuration: 3000 // Notifikasi tampil selama 3 detik
