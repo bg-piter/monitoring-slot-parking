@@ -4,7 +4,7 @@
 const PARKING_CONFIG = {
     // Konfigurasi Blynk
     blynk: {
-        token: "y7bz1Jq7aW_Lt-T5nNvey5OhtDs1QYOT", // Ganti dengan token Blynk Anda
+        token: "nod0SZ0c9ViUv_x7L-jlTdQXVOMDhohu", // Ganti dengan token Blynk Anda
         baseUrl: "https://blynk.cloud/external/api",
         timeout: 5000 // 5 detik timeout
     },
