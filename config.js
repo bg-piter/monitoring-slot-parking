@@ -1,7 +1,7 @@
 // config.js Smart Parking System
 
 const CONFIG = {
-    blynkToken: "y7bz1Jq7aW_Lt-T5nNvey5OhtDs1QYOT", // Ganti dengan token Blynk kamu
+    blynkToken: "nod0SZ0c9ViUv_x7L-jlTdQXVOMDhohu", // Ganti dengan token Blynk kamu
     updateInterval: 2500, // ms, interval update status dari Blynk
     sensorBlinkInterval: 2000, // ms, interval animasi indikator sensor
     notificationDuration: 3000 // ms, lama notifikasi muncul
@@ -51,3 +51,4 @@ window.carImages = carImages;
 window.slotStatus = slotStatus;
 window.blynkValueToStatus = blynkValueToStatus;
 window.getSlotStatus = getSlotStatus;
+
