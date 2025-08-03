@@ -13,13 +13,11 @@
             <h1>Smart Parking System</h1>
             <p>Real-time monitoring dengan 6 slot parkir total</p>
         </div>
-        
         <div class="entrance">
             <h3>🚪 PINTU MASUK</h3>
             <div class="gate"></div>
             <p>Sensor ultrasonik + booking otomatis</p>
         </div>
-        
         <div class="parking-complex">
             <!-- LANTAI 2 -->
             <div class="floor">
@@ -33,24 +31,23 @@
                     <div class="parking-slot available" id="slot-l2s1">
                         <div class="sensor-indicator"></div>
                         <div class="slot-number">L2-S1</div>
-                        <img class="car-image" id="img-l2s1" src="" alt="Status Parkir">
+                        <img class="car-image" id="img-l2s1" src="https://raw.githubusercontent.com/twitter/twemoji/master/assets/svg/1f697.svg" alt="Kosong">
                         <div class="slot-status" id="status-l2s1">Tersedia</div>
                     </div>
                     <div class="parking-slot available" id="slot-l2s2">
                         <div class="sensor-indicator"></div>
                         <div class="slot-number">L2-S2</div>
-                        <img class="car-image" id="img-l2s2" src="" alt="Status Parkir">
+                        <img class="car-image" id="img-l2s2" src="https://raw.githubusercontent.com/twitter/twemoji/master/assets/svg/1f697.svg" alt="Kosong">
                         <div class="slot-status" id="status-l2s2">Tersedia</div>
                     </div>
                     <div class="parking-slot available" id="slot-l2s3">
                         <div class="sensor-indicator"></div>
                         <div class="slot-number">L2-S3</div>
-                        <img class="car-image" id="img-l2s3" src="" alt="Status Parkir">
+                        <img class="car-image" id="img-l2s3" src="https://raw.githubusercontent.com/twitter/twemoji/master/assets/svg/1f697.svg" alt="Kosong">
                         <div class="slot-status" id="status-l2s3">Tersedia</div>
                     </div>
                 </div>
             </div>
-            
             <!-- LANTAI 1 -->
             <div class="floor">
                 <div class="floor-header">
@@ -63,25 +60,24 @@
                     <div class="parking-slot available" id="slot-l1s1">
                         <div class="sensor-indicator"></div>
                         <div class="slot-number">L1-S1</div>
-                        <img class="car-image" id="img-l1s1" src="" alt="Status Parkir">
+                        <img class="car-image" id="img-l1s1" src="https://raw.githubusercontent.com/twitter/twemoji/master/assets/svg/1f697.svg" alt="Kosong">
                         <div class="slot-status" id="status-l1s1">Tersedia</div>
                     </div>
                     <div class="parking-slot available" id="slot-l1s2">
                         <div class="sensor-indicator"></div>
                         <div class="slot-number">L1-S2</div>
-                        <img class="car-image" id="img-l1s2" src="" alt="Status Parkir">
+                        <img class="car-image" id="img-l1s2" src="https://raw.githubusercontent.com/twitter/twemoji/master/assets/svg/1f697.svg" alt="Kosong">
                         <div class="slot-status" id="status-l1s2">Tersedia</div>
                     </div>
                     <div class="parking-slot available" id="slot-l1s3">
                         <div class="sensor-indicator"></div>
                         <div class="slot-number">L1-S3</div>
-                        <img class="car-image" id="img-l1s3" src="" alt="Status Parkir">
+                        <img class="car-image" id="img-l1s3" src="https://raw.githubusercontent.com/twitter/twemoji/master/assets/svg/1f697.svg" alt="Kosong">
                         <div class="slot-status" id="status-l1s3">Tersedia</div>
                     </div>
                 </div>
             </div>
         </div>
-        
         <div class="summary">
             <div class="summary-card">
                 <div class="summary-number" id="total-available">6</div>
@@ -92,23 +88,28 @@
                 <div class="summary-label">Slot Terisi</div>
             </div>
         </div>
-        
         <div class="legend">
             <div class="legend-item">
                 <div class="legend-color" style="background: linear-gradient(135deg, #2ecc71, #27ae60);"></div>
+                <img src="https://raw.githubusercontent.com/twitter/twemoji/master/assets/svg/1f697.svg" style="width:18px;margin-left:4px;" alt="Kosong">
                 <span>Slot Kosong (Tersedia)</span>
             </div>
             <div class="legend-item">
                 <div class="legend-color" style="background: linear-gradient(135deg, #e74c3c, #c0392b);"></div>
+                <img src="https://raw.githubusercontent.com/twitter/twemoji/master/assets/svg/1f698.svg" style="width:18px;margin-left:4px;" alt="Terisi">
                 <span>Slot Terisi</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background: linear-gradient(135deg, #f9d423, #ffd700);"></div>
+                <img src="https://raw.githubusercontent.com/twitter/twemoji/master/assets/svg/1f699.svg" style="width:18px;margin-left:4px;" alt="Booking">
+                <span>Slot Booking</span>
             </div>
         </div>
     </div>
-    
     <div class="notification" id="notification">
         <span id="notification-text"></span>
     </div>
-    
+    <script src="config.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
